@@ -1,0 +1,25 @@
+name: Wrong conversion
+description: A word was converted wrongly, or not converted when it should have been.
+labels: ["bug"]
+body:
+  - type: input
+    id: input
+    attributes: { label: Input text }
+    validations: { required: true }
+  - type: input
+    id: expected
+    attributes: { label: What you expected }
+    validations: { required: true }
+  - type: input
+    id: actual
+    attributes: { label: What you got }
+    validations: { required: true }
+  - type: dropdown
+    id: system
+    attributes:
+      label: Spelling of the input
+      options: ["x-system", "h-system", "real letters", "typing in a field"]
+    validations: { required: true }
+  - type: markdown
+    attributes:
+      value: "h-system compounds such as flughaveno cannot be told apart from letter pairs by spelling alone. If you found one, say which word it is and what the two parts are, so it can go on the exception list."

@@ -1,0 +1,12 @@
+export { DEFAULT_H_EXCEPTIONS, DEFAULT_PROTECTED_WORDS, SUPERSIGN_LETTERS } from './constants.js';
+export type { ExceptionPosition, HSystemException, SupersignLetter } from './constants.js';
+export type { ConvertOptions, DetectedSpelling, Spelling } from './types.js';
+export { detectSpelling } from './detectSpelling.js';
+export { fromHSystem } from './fromHSystem.js';
+export { fromXSystem } from './fromXSystem.js';
+export { toHSystem } from './toHSystem.js';
+export { toUnicode } from './toUnicode.js';
+export { toXSystem } from './toXSystem.js';
+export { convertTyped } from './convertTyped.js';
+export { revertTyped } from './revertTyped.js';
+export type { TypedChange, TypingOptions } from './typingTypes.js';

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>esperanto-text: type ĉ ĝ ĥ ĵ ŝ ŭ anywhere</title>
+  <meta name="description" content="Convert Esperanto text between the x-system, the h-system and real letters, and type ĉ ĝ ĥ ĵ ŝ ŭ as you go. A small library for JavaScript, the DOM and React.">
+  <link rel="canonical" href="https://esperantaskanaduko.com/open-source/esperanto-text/">
+  <link rel="icon" href="../../favicon.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site"><div class="wrap">
+  <a class="brand" href="../"><span class="star" aria-hidden="true">★</span> Esperanta Skanaduko · open source</a>
+  <nav aria-label="Project links">
+    <a href="#try">Try it</a><a href="#use">Use it</a><a href="#limits">Limits</a>
+    <a href="https://github.com/Esperanta-Skanaduko/esperanto-text">GitHub</a>
+  </nav>
+</div></header>
+<main class="wrap">
+  <div class="hero">
+    <h1>esperanto-text</h1>
+    <p class="lead">The first obstacle for every learner is typing <strong>ĉ ĝ ĥ ĵ ŝ ŭ</strong>. This library converts between the <em>x-system</em> (<code>cxu</code>), the <em>h-system</em> (<code>chu</code>) and real letters (<code>ĉu</code>), and turns typing into the real letters as it happens.</p>
+    <ul class="badges"><li>TypeScript</li><li>No dependencies</li><li>DOM helper</li><li>React hook</li><li>MIT</li></ul>
+    <p><a class="btn" href="#try">Try it</a><a class="btn secondary" href="https://github.com/Esperanta-Skanaduko/esperanto-text">View on GitHub</a></p>
+  </div>
+
+  <section id="try" aria-labelledby="try-h">
+    <h2 id="try-h">Try it</h2>
+    <div class="card">
+      <h3>Type with the x-system</h3>
+      <p class="muted">Type <code>cxu</code>, <code>sxajnas</code>, <code>gxis</code>. Press Backspace right after a conversion to get your letters back (for <code>Linux</code>).</p>
+      <div class="row">
+        <label><input type="checkbox" id="opt-x" checked> x-system (<code>cx</code> gives ĉ)</label>
+        <label><input type="checkbox" id="opt-h"> h-system (<code>ch</code> gives ĉ)</label>
+      </div>
+      <label for="typing">Type here</label>
+      <textarea id="typing" lang="eo" spellcheck="false"></textarea>
+    </div>
+    <div class="card">
+      <h3>Convert a text</h3>
+      <label for="source">Paste text in any spelling</label>
+      <textarea id="source" lang="eo" spellcheck="false">Morgaux estas jxauxdo. Mi devus acxeti mangxajxon.</textarea>
+      <p>Detected spelling: <strong id="detected">-</strong></p>
+      <div class="grid">
+        <div><label for="out-unicode">Real letters</label><textarea id="out-unicode" readonly></textarea></div>
+        <div><label for="out-x">x-system</label><textarea id="out-x" readonly></textarea></div>
+        <div><label for="out-h">h-system</label><textarea id="out-h" readonly></textarea></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="use" aria-labelledby="use-h">
+    <h2 id="use-h">Use it</h2>
+    <pre><code>npm install esperanto-text</code></pre>
+    <p class="muted">Not on npm yet? Install straight from GitHub: <code>npm install github:Esperanta-Skanaduko/esperanto-text</code></p>
+    <h3>Convert text</h3>
+<pre><code>import { toUnicode, toXSystem, toHSystem, detectSpelling } from 'esperanto-text';
+
+toUnicode('Morgaux estas jxauxdo');   // 'Morgaŭ estas ĵaŭdo'
+toXSystem('Ĉu vi ŝatas ĝin?');        // 'Cxu vi sxatas gxin?'
+toHSystem('ĵaŭdo');                   // 'jhaudo'
+detectSpelling('cxu');                // 'x'</code></pre>
+    <h3>Any input or textarea</h3>
+<pre><code>import { attachEsperantoInput } from 'esperanto-text/dom';
+
+const detach = attachEsperantoInput(document.querySelector('textarea'), { x: true, h: false });</code></pre>
+    <h3>React</h3>
+<pre><code>import { useEsperantoInput } from 'esperanto-text/react';
+
+const Field = () => {
+  const { inputProps } = useEsperantoInput('');
+  return &lt;input {...inputProps} lang="eo" /&gt;;
+};</code></pre>
+  </section>
+
+  <section id="limits" aria-labelledby="limits-h">
+    <h2 id="limits-h">Limits you should know</h2>
+    <div class="note"><strong>The x-system is exact. The h-system is a best effort.</strong> In the h-system ŭ is a plain <code>u</code>, and <code>ch</code>, <code>sh</code> or <code>au</code> can also be ordinary letters in a compound, as in <code>flughaveno</code> (flugi + haveno) or <code>traurba</code>. A short list of known cases is protected, and you can add your own with the <code>exceptions</code> option. Other compounds will be converted wrongly, so check h-system output.</div>
+    <p>Foreign words such as <code>Linux</code> or <code>Redux</code> contain <code>ux</code>; they are protected by default (<code>protectedWords</code>). URLs and e-mail addresses are never touched.</p>
+  </section>
+</main>
+<footer class="site"><div class="wrap">Part of <a href="../">Esperanta Skanaduko open source</a> · <a href="https://esperantaskanaduko.com/">esperantaskanaduko.com</a> · MIT licensed.</div></footer>
+<script type="module">
+  import { attachEsperantoInput, toUnicode, toXSystem, toHSystem, detectSpelling } from './esperanto-text.js';
+  const typing = document.getElementById('typing');
+  const optX = document.getElementById('opt-x');
+  const optH = document.getElementById('opt-h');
+  let detach = attachEsperantoInput(typing, { x: optX.checked, h: optH.checked });
+  const rewire = () => { detach(); detach = attachEsperantoInput(typing, { x: optX.checked, h: optH.checked }); };
+  optX.addEventListener('change', rewire);
+  optH.addEventListener('change', rewire);
+  const source = document.getElementById('source');
+  const labels = { unicode: 'real letters already', x: 'x-system', h: 'h-system (a guess)', mixed: 'mixed real letters and x-system', none: 'nothing to convert' };
+  const update = () => {
+    const unicode = toUnicode(source.value);
+    document.getElementById('detected').textContent = labels[detectSpelling(source.value)];
+    document.getElementById('out-unicode').value = unicode;
+    document.getElementById('out-x').value = toXSystem(unicode);
+    document.getElementById('out-h').value = toHSystem(unicode);
+  };
+  source.addEventListener('input', update);
+  update();
+</script>
+</body>
+</html>
