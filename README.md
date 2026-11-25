@@ -8,8 +8,6 @@ The first obstacle for every learner is typing them. This library converts betwe
 
 ```bash
 npm install esperanto-text
-# not on npm yet? install from GitHub:
-npm install github:Esperanta-Skanaduko/esperanto-text
 ```
 
 ## Convert text
